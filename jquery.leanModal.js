@@ -6,7 +6,8 @@
       var defaults = {
         top: 100,
         overlay: 0.5,
-        closeButton: null
+        closeButton:   null,
+        closeCallback: null,
       }
 
       var overlay = $("<div id='lean_overlay'></div>");
@@ -31,7 +32,7 @@
               modal_width = $(modal_id).outerWidth();
 
           $('#lean_overlay').css({ 'display' : 'block', opacity : 0 });
-          $('#lean_overlay').fadeTo(200,o.overlay);
+          $('#lean_overlay').fadeTo(200, o.overlay);
 
           $(modal_id).css({
             'display' : 'block',
@@ -40,7 +41,7 @@
             'z-index': 11000,
             'left' : 50 + '%',
             'margin-left' : -(modal_width/2) + "px",
-            'top' : o.top + "px"
+            'top' : o.top + "px",
           });
 
           $(modal_id).fadeTo(200,1);
@@ -52,6 +53,10 @@
       function close_modal(modal_id) {
         $("#lean_overlay").fadeOut(200);
         $(modal_id).css({ 'display' : 'none' });
+
+        if ($.isFunction(options.closeCallback)) {
+          options.closeCallback();
+        }
       }
     }
   });
